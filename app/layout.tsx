@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import "./globals.css"
+import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ToastProvider } from "@/context/ToastContext";
+import ToastContainer from "@/components/common/Toast";
 import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
         <AuthProvider>
           <ToastProvider>
             {children}
+            <ToastContainer />
           </ToastProvider>
         </AuthProvider>
       </body>
