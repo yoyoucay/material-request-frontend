@@ -1,0 +1,74 @@
+CREATE TABLE tumx01 (
+    "iUserID" SERIAL PRIMARY KEY,
+    "sBadgeID" VARCHAR(50) NOT NULL,
+    "sFullname" VARCHAR(150) NOT NULL,
+    "sEmail" VARCHAR(150) NOT NULL UNIQUE,
+    "iRole" INT NOT NULL,
+    "iStatus" INT DEFAULT 1,
+    "iCreateBy" INT NOT NULL,
+    "dtCreated" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "iUpdatedBy" INT,
+    "dtUpdated" TIMESTAMP
+);
+
+CREATE TABLE tumx02 (
+    "iPassID" SERIAL PRIMARY KEY,
+    "iUserID" INT NOT NULL,
+    "sPassword" VARCHAR(255) NOT NULL,
+    "iStatus" INT DEFAULT 1,
+    "iCreateBy" INT NOT NULL,
+    "dtCreated" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "iUpdatedBy" INT,
+    "dtUpdated" TIMESTAMP,
+    CONSTRAINT fk_password_user
+        FOREIGN KEY ("iUserID")
+        REFERENCES tumx01("iUserID")
+        ON DELETE CASCADE
+);
+
+CREATE TABLE tumx03 (
+    "iMaterialID" SERIAL PRIMARY KEY,
+    "sMaterialCode" VARCHAR(50) UNIQUE NOT NULL,
+    "sMaterialName" VARCHAR(150) NOT NULL,
+    "decUnitPrice" DECIMAL(18,2) DEFAULT 0,
+    "sDesc" VARCHAR(255),
+    "iStatus" INT DEFAULT 1,
+    "iCreateBy" INT NOT NULL,
+    "dtCreated" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "iUpdatedBy" INT,
+    "dtUpdated" TIMESTAMP
+);
+
+CREATE TABLE tudt01 (
+    "iRequestID" SERIAL PRIMARY KEY,
+    "sReqNumber" VARCHAR(50) NOT NULL,
+    "sDept" VARCHAR(100) NOT NULL,
+    "iApprovedBy" INT,
+    "sApprovedByName" VARCHAR(50),
+    "dtApproved" TIMESTAMP,
+    "iStatus" INT DEFAULT 1,
+    "iCreateBy" INT NOT NULL,
+    "dtCreated" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "iUpdatedBy" INT,
+    "dtUpdated" TIMESTAMP
+);
+
+CREATE TABLE tudt02 (
+    "iDetailID" SERIAL PRIMARY KEY,
+    "iRequestID" INT NOT NULL,
+    "sMaterialCode" VARCHAR(50) NOT NULL,
+    "decQty" DECIMAL(18,2) NOT NULL,
+    "sDesc" VARCHAR(255),
+    "iStatus" INT DEFAULT 1,
+    "iCreateBy" INT NOT NULL,
+    "dtCreated" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "iUpdatedBy" INT,
+    "dtUpdated" TIMESTAMP,
+    CONSTRAINT fk_request_detail_request
+        FOREIGN KEY ("iRequestID")
+        REFERENCES tudt01("iRequestID")
+        ON DELETE CASCADE,
+    CONSTRAINT fk_request_detail_material
+        FOREIGN KEY ("sMaterialCode")
+        REFERENCES tumx03("sMaterialCode")
+);
