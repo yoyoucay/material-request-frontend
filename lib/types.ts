@@ -32,36 +32,41 @@ export interface ChangePasswordPayload {
 }
 
 export interface Material {
+  iMaterialID: number;
   sMaterialCode: string;
   sMaterialName: string;
-  decUnitPrice: number;
+  decUnitPrice: string;
+  sDesc?: string;
+  iStatus: number;
 }
 
 export interface RequestDetail {
   iDetailID?: number;
+  iRequestID?: number;
   sMaterialCode: string;
   sMaterialName?: string;
-  decQty: number;
-  decUnitPrice?: number;
+  decQty: number | string;
+  decUnitPrice?: string;
   sDesc?: string;
   iStatus?: number;
+  dtCreated?: string;
 }
 
 export interface MaterialRequest {
-  id: string;
+  iRequestID: number;
   sReqNumber: string;
   sDept: string;
   iStatus: number;
-  createdAt: string;
-  createdBy?: string;
-  details?: RequestDetail[];
+  iCreateBy?: number;
+  dtCreated: string;
+  dtUpdated?: string;
+  requestDetails?: RequestDetail[];
 }
 
 export interface CreateRequestPayload {
   sReqNumber: string;
   sDept: string;
-  iStatus?: number;
-  details: {
+  requestDetails: {
     sMaterialCode: string;
     decQty: number;
     sDesc?: string;
@@ -72,7 +77,7 @@ export interface UpdateRequestPayload {
   sReqNumber?: string;
   sDept?: string;
   iStatus?: number;
-  details?: {
+  requestDetails?: {
     sMaterialCode: string;
     decQty: number;
     sDesc?: string;

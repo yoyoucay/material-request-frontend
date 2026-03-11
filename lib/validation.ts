@@ -21,7 +21,9 @@ export const registerSchema = z
 export const changePasswordSchema = z
   .object({
     oldPassword: z.string().min(1, "Current password is required"),
-    newPassword: z.string().min(6, "New password must be at least 6 characters"),
+    newPassword: z
+      .string()
+      .min(6, "New password must be at least 6 characters"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
@@ -33,16 +35,14 @@ export const materialDetailSchema = z.object({
   iDetailID: z.number().optional(),
   sMaterialCode: z.string().min(1, "Material is required"),
   sMaterialName: z.string().optional(),
-  decQty: z.preprocess(
-    (val) => (val === "" || val === undefined ? undefined : Number(val)),
-    z.number({ message: "Quantity must be a number" })
-      .positive("Quantity must be greater than 0")
-  ),
+  decQty: z
+    .number({ message: "Quantity must be a number" })
+    .positive("Quantity must be greater than 0"),
   decUnitPrice: z.number().optional(),
   sDesc: z.string().optional(),
 });
 
-export const requestFormSchema = z.object({
+export const createRequestSchema = z.object({
   sReqNumber: z.string().min(1, "Request number is required"),
   sDept: z.string().min(1, "Department is required"),
   iStatus: z.number(),
@@ -51,8 +51,16 @@ export const requestFormSchema = z.object({
     .min(1, "At least one material detail is required"),
 });
 
+export const editRequestSchema = z.object({
+  sReqNumber: z.string().min(1, "Request number is required"),
+  sDept: z.string().min(1, "Department is required"),
+  iStatus: z.number(),
+  details: z.array(materialDetailSchema).optional(),
+});
+
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
-export type RequestFormData = z.infer<typeof requestFormSchema>;
+export type CreateRequestFormData = z.infer<typeof createRequestSchema>;
+export type EditRequestFormData = z.infer<typeof editRequestSchema>;
 export type MaterialDetailFormData = z.infer<typeof materialDetailSchema>;
