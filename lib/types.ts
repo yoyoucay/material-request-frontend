@@ -1,8 +1,10 @@
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
+  iUserID: number;
+  sFullname: string;
+  sEmail: string;
+  sBadgeID: string;
+  iRole: number;
+  iStatus: number;
 }
 
 export interface AuthState {
@@ -12,15 +14,15 @@ export interface AuthState {
 }
 
 export interface LoginPayload {
-  email: string;
-  password: string;
+  sEmail: string;
+  sPassword: string;
 }
 
 export interface RegisterPayload {
-  email: string;
-  password: string;
-  fullname: string;
-  badgeId: string;
+  sEmail: string;
+  sPassword: string;
+  sFullname: string;
+  sBadgeID: string;
 }
 
 export interface ChangePasswordPayload {

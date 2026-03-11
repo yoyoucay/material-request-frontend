@@ -1,19 +1,19 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  sEmail: z.string().email("Please enter a valid email address"),
+  sPassword: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 export const registerSchema = z
   .object({
-    email: z.string().email("Please enter a valid email address"),
-    fullname: z.string().min(2, "Full name must be at least 2 characters"),
-    badgeId: z.string().min(1, "Badge ID is required"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    sEmail: z.string().email("Please enter a valid email address"),
+    sFullname: z.string().min(2, "Full name must be at least 2 characters"),
+    sBadgeID: z.string().min(1, "Badge ID is required"),
+    sPassword: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.sPassword === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
@@ -21,9 +21,7 @@ export const registerSchema = z
 export const changePasswordSchema = z
   .object({
     oldPassword: z.string().min(1, "Current password is required"),
-    newPassword: z
-      .string()
-      .min(6, "New password must be at least 6 characters"),
+    newPassword: z.string().min(6, "New password must be at least 6 characters"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
@@ -37,9 +35,8 @@ export const materialDetailSchema = z.object({
   sMaterialName: z.string().optional(),
   decQty: z.preprocess(
     (val) => (val === "" || val === undefined ? undefined : Number(val)),
-    z
-      .number({ message: "Quantity must be a number" })
-      .positive("Quantity must be greater than 0"),
+    z.number({ message: "Quantity must be a number" })
+      .positive("Quantity must be greater than 0")
   ),
   decUnitPrice: z.number().optional(),
   sDesc: z.string().optional(),
